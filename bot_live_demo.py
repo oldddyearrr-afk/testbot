@@ -96,8 +96,8 @@ async def handle_health(request):
     </head>
     <body style="margin:0;padding:0;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:Arial,sans-serif;">
         <div style="text-align:center;">
-            <h1 style="font-size:36px;margin:0;">🤖 is bot live</h1>
-            <p style="font-size:18px;margin:10px 0 0 0;">by: @xl9rr</p>
+            <h1 style="font-size:36px;margin:0;">is bot live</h1>
+            <p style="font-size:18px;margin:10px 0 0 0;">by: t.me/xl9rr</p>
         </div>
     </body>
     </html>
@@ -106,6 +106,7 @@ async def handle_health(request):
 
 async def start_web_server():
     app = web.Application()
+    app.router.add_get('/', handle_health)
     app.router.add_get('/health', handle_health)
     runner = web.AppRunner(app)
     await runner.setup()
@@ -122,11 +123,11 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if user_id not in active_users:
         active_users.append(user_id)
 
-    status = "🟢 يعمل" if broadcast_running else "🔴 متوقف"
+    status = " Works ✅" if broadcast_running else "Stopped ❌"
     await update.message.reply_text(
-        f"✅ أهلاً بك\n\n"
-        f"البث: {status}\n"
-        f"المشتركين: {len(active_users)}\n\n"
+        f"n\n\ Hello myself"
+        f" Live is : {status}\n"
+        f"Nobady : {len(active_users)}\n\n"
         f"/help - عرض الأوامر"
     )
 
@@ -138,11 +139,11 @@ async def startlive_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = str(update.effective_user.id)
 
     if user_id != config.get("YOUR_USER_ID"):
-        await update.message.reply_text("❌ للمالك فقط")
+        await update.message.reply_text("اكعد لتلعب هاي لـ ايهم فقط")
         return
 
     if broadcast_running:
-        await update.message.reply_text("⚠️ البث يعمل")
+        await update.message.reply_text("Registration works successfully")
         return
 
     broadcast_running = True
@@ -154,11 +155,11 @@ async def startlive_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         except:
             break
 
-    await update.message.reply_text("🎬 جاري بدء البث الذكي...")
+    await update.message.reply_text("Getting started, wait, please.")
     asyncio.create_task(broadcast_loop())
     await asyncio.sleep(2)
     await update.message.reply_text(
-        f"✅ البث نشط (ذكي وسلس 100%)\n"
+        f"Registration works successfully ✅\n"
         f"المشتركين: {len(active_users)}\n"
         f"المدة: {config.get('CLIP_SECONDS')}ث\n"
         f"Buffer: {config.get('BUFFER_SIZE')} مقاطع"
@@ -172,17 +173,17 @@ async def stoplive_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = str(update.effective_user.id)
 
     if user_id != config.get("YOUR_USER_ID"):
-        await update.message.reply_text("❌ للمالك فقط")
+        await update.message.reply_text("كعد لتلعب هاي لـ ايهم فقط")
         return
 
     if not broadcast_running:
-        await update.message.reply_text("⚠️ البث متوقف")
+        await update.message.reply_text("Registration Stops")
         return
 
     broadcast_running = False
-    await update.message.reply_text("🛑 جاري الإيقاف...")
+    await update.message.reply_text("اصبر جاري الايقاف...")
     await asyncio.sleep(2)
-    await update.message.reply_text("✅ تم إيقاف البث")
+    await update.message.reply_text("The Tess have been Registration has been discontinued ✅")
 
 async def setbottom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.effective_user or not update.message:
@@ -190,7 +191,7 @@ async def setbottom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     user_id = str(update.effective_user.id)
     if user_id != config.get("YOUR_USER_ID"):
-        await update.message.reply_text("❌ للمالك فقط")
+        await update.message.reply_text("كعد لتلعب هاي لـ ايهم فقط")
         return
 
     if not context.args:
@@ -210,7 +211,7 @@ async def wbottom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     user_id = str(update.effective_user.id)
     if user_id != config.get("YOUR_USER_ID"):
-        await update.message.reply_text("❌ للمالك فقط")
+        await update.message.reply_text("كعد لتلعب هاي لـ ايهم فقط")
         return
 
     current = config.get('BOTTOM_WATERMARK_ENABLED', True)
@@ -316,7 +317,6 @@ def build_smart_ffmpeg_cmd(src, out, start_pos, duration, bottom_text="", bottom
         bottom_filter = (
             f"drawtext=text='{escaped_bottom}':x=w-mod(100*t\\,w+tw):y=h-th-80:"
             f"fontsize=32:fontcolor=white@0.95:"
-            f"fontfile=/tmp/fonts/Tajawal-Regular.ttf:"
             f"borderw=0.8:bordercolor=black@0.6"
         )
         cmd += ["-vf", bottom_filter]
