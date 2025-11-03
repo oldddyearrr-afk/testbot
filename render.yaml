@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: telegram-live-stream-bot
+    env: python
+    plan: starter  # ترقية من free إلى starter للحصول على 512MB+ ذاكرة
+    buildCommand: "apt-get update && apt-get install -y ffmpeg && pip install -r requirements.txt"
+    startCommand: "python bot_live_demo.py"
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: BOT_TOKEN
+        sync: false
+      - key: YOUR_USER_ID
+        sync: false
+      - key: CHANNEL_ID
+        sync: false
+      - key: SOURCE_URL
+        sync: false
