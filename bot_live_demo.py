@@ -18,9 +18,9 @@ DEFAULT_CONFIG = {
     "YOUR_USER_ID": os.environ.get("YOUR_USER_ID", ""),
     "CHANNEL_ID": os.environ.get("CHANNEL_ID", ""),
     "SOURCE_URL": os.environ.get("SOURCE_URL", ""),
-    "CLIP_SECONDS": 14,
+    "CLIP_SECONDS": 17,
     "SLEEP_BETWEEN": 0,
-    "BOTTOM_WATERMARK_TEXT": "Telegram | @media_ayham",
+    "BOTTOM_WATERMARK_TEXT": "t.me/xl9rr",
     "BOTTOM_WATERMARK_ENABLED": True,
     "BUFFER_SIZE": 5,
     "KEYFRAME_INTERVAL": 2
@@ -55,7 +55,7 @@ required_vars = ["BOT_TOKEN", "YOUR_USER_ID", "CHANNEL_ID", "SOURCE_URL"]
 missing_vars = [var for var in required_vars if not config.get(var)]
 
 if missing_vars:
-    print("❌ المتغيرات المطلوبة:")
+    print("Variables requeridas ❌")
     for var in missing_vars:
         print(f"   {var}")
     exit(1)
